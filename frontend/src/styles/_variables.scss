@@ -1,0 +1,91 @@
+// FrameFlow — "Masculine Bright" palette
+// Dark (default): Deep Navy base, Electric Blue accent, Ice White text
+// Light: Ice White base, Deep Navy text, Electric Blue accent
+
+// ---- Brand palette ----
+$electric: #0066ff;
+$electric-hover: #3d8bff;
+$electric-soft: rgba(0, 102, 255, 0.12);
+$cyan: #00c2ff;
+$cyan-soft: rgba(0, 194, 255, 0.12);
+$royal: #1746a2;
+$indigo: #4f46e5;
+$indigo-soft: rgba(79, 70, 229, 0.12);
+$neon: #22c55e;
+$neon-soft: rgba(34, 197, 94, 0.12);
+$ice: #f8fafc;
+$navy: #0b1220;
+
+// ---- Dark theme (default) ----
+$bg: #0b1220;
+$surface: #101a2e;
+$surface-2: #16233c;
+$surface-3: #1d2c49;
+$border: #24344f;
+$border-soft: #1a2740;
+$text: #f8fafc;
+$text-dim: #a9b8d0;
+$text-faint: #64748b;
+$accent: $electric;
+$accent-hover: $electric-hover;
+$accent-soft: $electric-soft;
+$success: $neon;
+$success-soft: $neon-soft;
+$warning: #facc15;
+$warning-soft: rgba(250, 204, 21, 0.12);
+$danger: #f87171;
+$danger-soft: rgba(248, 113, 113, 0.12);
+$info: $cyan;
+$info-soft: $cyan-soft;
+
+// ---- Light theme (applied via [data-theme='light'] overrides in _base.scss) ----
+$bg-light: #f8fafc;
+$surface-light: #ffffff;
+$surface-2-light: #f1f5f9;
+$surface-3-light: #e2e8f0;
+$border-light: #e2e8f0;
+$border-soft-light: #f1f5f9;
+$text-light: #0b1220;
+$text-dim-light: #475569;
+$text-faint-light: #94a3b8;
+
+$r-sm: 7px;
+$r-md: 11px;
+$r-lg: 16px;
+$r-xl: 22px;
+
+$sp-1: 4px;
+$sp-2: 8px;
+$sp-3: 12px;
+$sp-4: 16px;
+$sp-5: 20px;
+$sp-6: 24px;
+$sp-8: 32px;
+$sp-10: 40px;
+$sp-12: 48px;
+
+$shadow-sm: 0 1px 2px rgba(2, 8, 23, 0.4);
+$shadow-md: 0 8px 24px -8px rgba(2, 8, 23, 0.5);
+$shadow-lg: 0 20px 48px -12px rgba(2, 8, 23, 0.6);
+$glow-accent: 0 0 24px rgba(0, 102, 255, 0.35);
+
+$font-head: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+$font-body: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+$font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', monospace;
+
+$sidebar-w: 248px;
+$sidebar-w-collapsed: 76px;
+$topbar-h: 64px;
+
+// Color maps used by badges / KPI icon backgrounds
+$badge-colors: (
+  'success': ($success, $success-soft),
+  'warning': ($warning, $warning-soft),
+  'danger': ($danger, $danger-soft),
+  'info': ($info, $info-soft),
+  'accent': ($accent-hover, $accent-soft),
+  'neutral': ($text-dim, $surface-3),
+);
+
+// Chart palette (bright, masculine)
+$chart-colors: ($electric, $cyan, $neon, $indigo, $warning, $danger);

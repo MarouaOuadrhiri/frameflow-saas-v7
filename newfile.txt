@@ -1,0 +1,27 @@
+Safi, l'admin 3ndek ma khdemch (Access is denied — t-taqa mazal machi admin). Bla ma nday3o l'w9t, kayn 7el bla admin kaydir nafs l'gharad: Windows kaykhdem ay haja f dossier Startup fo9ma katdkhel l'session.
+
+1. 7el PowerShell 3adi (bla admin), w sir l scripts:
+
+
+
+cd "C:\Users\Mediast 01\Documents\New folder\frameflow-saas-v7\scripts"
+2. Colli hadchi:
+
+
+
+$startup = [Environment]::GetFolderPath('Startup')
+$vbs = Join-Path (Get-Location) 'run-silent.vbs'
+$sc = (New-Object -ComObject WScript.Shell).CreateShortcut("$startup\FrameFlow.lnk")
+$sc.TargetPath = "wscript.exe"
+$sc.Arguments = "`"$vbs`""
+$sc.Save()
+Test-Path "$startup\FrameFlow.lnk"
+Ila tba3 True → safi, l'raccourci tkhleq.
+
+3. Daba restart l'PC (w dkhel l'session dyalk), tsenna 1-2 min, w 7el http://project-management — khassha tkhdem bo7dha.
+
+4. Test:
+
+schtasks /Run /TN "FrameFlowSilentStart"
+
+L'fer9 l'w7id: b had t-tari9a l'app katkhadem mli katdkhel l'PC (machy 9bel l'login b7al l'task) — f l'isti3mal dyalk nafs n-natija.

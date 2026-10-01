@@ -1,0 +1,43 @@
+@use 'variables' as v;
+
+/* ===== Responsive (mirrors original breakpoints) ===== */
+@media (max-width: 1180px) {
+  .kpi-grid { grid-template-columns: repeat(3, 1fr); }
+  .stat-strip { grid-template-columns: repeat(3, 1fr); }
+  .kanban { grid-template-columns: repeat(2, 1fr); }
+  .two-col { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 860px) {
+  .sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+    box-shadow: var(--shadow-lg);
+  }
+  .app.mobile-open .sidebar { transform: translateX(0); }
+  .app.mobile-open .sidebar-scrim { display: block; }
+  .hamburger { display: flex; }
+  .searchbar { display: none; }
+  .content { padding: 18px 14px 50px; }
+  .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+  .stat-strip { grid-template-columns: repeat(2, 1fr); }
+  .settings-layout { grid-template-columns: 1fr; }
+  .settings-nav { flex-direction: row; overflow-x: auto; }
+  .projects-grid { grid-template-columns: 1fr; }
+  .equip-grid { grid-template-columns: repeat(2, 1fr); }
+  .kanban { grid-template-columns: 1fr; }
+  .page-header { flex-direction: column; align-items: flex-start; }
+  .detail-hero-content { flex-direction: column; align-items: flex-start; }
+  table { min-width: 560px; }
+}
+
+@media (max-width: 480px) {
+  .kpi-grid { grid-template-columns: 1fr 1fr; }
+  .stat-strip { grid-template-columns: 1fr 1fr; }
+  .equip-grid { grid-template-columns: 1fr 1fr; }
+  .quickadd-grid { grid-template-columns: 1fr; }
+}

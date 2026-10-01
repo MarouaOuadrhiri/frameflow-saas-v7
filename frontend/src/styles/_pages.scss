@@ -1,0 +1,35 @@
+@use 'variables' as v;
+
+/* Page-specific helpers — most pages compose shared components only. */
+
+/* Stat strip variants */
+.stat-strip.cols-3 { grid-template-columns: repeat(3, 1fr); }
+.stat-strip.cols-4 { grid-template-columns: repeat(4, 1fr); }
+
+/* Project detail lists */
+.meta-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border-soft);
+}
+.meta-row:last-child { border-bottom: 0; }
+
+/* Kanban columns on the tasks page */
+.kanban-head-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+/* Calendar toolbar */
+.cal-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+/* Quick-add dropdown button label */
+.qa-label { @media (max-width: 480px) { display: none; } }
