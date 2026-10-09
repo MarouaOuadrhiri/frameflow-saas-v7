@@ -1,10 +1,8 @@
-const path = require('path');
-require('dotenv').config({ path: path.join(__dirname, '..', '.env') });
+require('dotenv').config();
 
 const express = require('express');
-const http = require('http');
-const { Server } = require('socket.io');
 const fs = require('fs');
+const path = require('path');
 const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
@@ -13,14 +11,9 @@ const auth = require('./middleware/auth');
 const errorHandler = require('./middleware/errorHandler');
 
 const app = express();
-const server = http.createServer(app);
-const io = new Server(server, {
-  cors: {
-    origin: process.env.CORS_ORIGIN ? process.env.CORS_ORIGIN.split(',').map((s) => s.trim()) : '*',
-    methods: ['GET', 'POST'],
-  },
-});
-app.set('io', io);
+
+// NOTE: live-sync between teammates removed — free-tier hosts can't keep those connections.
+// Pages refresh on navigation; notifications still poll every 5 minutes.
 
 // Uploaded project files live on disk under backend/uploads/ (metadata in `project_files`).
 fs.mkdirSync(path.join(__dirname, '..', 'uploads'), { recursive: true });
@@ -33,20 +26,6 @@ app.use(
 );
 app.use(morgan('dev'));
 app.use(express.json({ limit: '1mb' }));
-
-// Broadcast write operations so other connected clients can refresh instantly.
-app.use((req, res, next) => {
-  res.on('finish', () => {
-    if (
-      ['POST', 'PUT', 'PATCH', 'DELETE'].includes(req.method) &&
-      res.statusCode < 400 &&
-      req.path.startsWith('/api')
-    ) {
-      io.emit('ff:update', { method: req.method, path: req.path });
-    }
-  });
-  next();
-});
 
 // Public
 app.get('/api/health', (req, res) => res.json({ data: { ok: true } }));
@@ -74,7 +53,7 @@ app.use(errorHandler);
 const PORT = Number(process.env.PORT || 5000);
 
 if (require.main === module) {
-  server.listen(PORT, () => {
+  app.listen(PORT, () => {
     // eslint-disable-next-line no-console
     console.log(`FrameFlow API listening on port ${PORT}`);
   });
