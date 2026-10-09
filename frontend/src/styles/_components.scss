@@ -1038,3 +1038,106 @@ select[multiple] { height: 90px; }
 }
 .auth-wrap { position: relative; overflow: hidden; }
 .auth-card { position: relative; z-index: 1; }
+
+/* ==========================================================================
+   Demo Credentials Fill Button — Crafted by Maroua Ouadrhiri
+   ========================================================================== */
+.demo-fill-wrap {
+  margin-top: 16px;
+  margin-bottom: 4px;
+}
+
+.btn-demo-fill {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  background: rgba(0, 102, 255, 0.08);
+  border: 1px dashed rgba(0, 102, 255, 0.35);
+  border-radius: var(--r-md);
+  color: var(--text);
+  cursor: pointer;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  text-align: left;
+  user-select: none;
+}
+
+.btn-demo-fill:hover {
+  background: rgba(0, 102, 255, 0.16);
+  border-color: rgba(0, 102, 255, 0.65);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 18px rgba(0, 102, 255, 0.22);
+}
+
+.btn-demo-fill:active {
+  transform: translateY(0);
+}
+
+.btn-demo-fill.is-filled {
+  background: rgba(34, 197, 94, 0.12);
+  border-color: rgba(34, 197, 94, 0.55);
+  box-shadow: 0 0 16px rgba(34, 197, 94, 0.25);
+}
+
+.demo-fill-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0066ff 0%, #60a5fa 100%);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(0, 102, 255, 0.35);
+}
+
+.btn-demo-fill.is-filled .demo-fill-avatar {
+  background: linear-gradient(135deg, #16a34a 0%, #4ade80 100%);
+  box-shadow: 0 2px 8px rgba(34, 197, 94, 0.4);
+}
+
+.demo-fill-meta {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+
+.demo-fill-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: #ffffff;
+  line-height: 1.2;
+}
+
+.demo-fill-email {
+  font-size: 11.5px;
+  color: var(--text-dim);
+  font-family: var(--font-mono, monospace);
+  line-height: 1.2;
+  margin-top: 2px;
+}
+
+.demo-fill-badge {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: rgba(0, 102, 255, 0.2);
+  color: #60a5fa;
+  border: 1px solid rgba(0, 102, 255, 0.3);
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.btn-demo-fill.is-filled .demo-fill-badge {
+  background: rgba(34, 197, 94, 0.2);
+  color: #4ade80;
+  border-color: rgba(34, 197, 94, 0.4);
+}
+
