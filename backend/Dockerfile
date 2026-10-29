@@ -1,12 +1,9 @@
-FROM node:20-alpine
-
+FROM node:20-bookworm
 WORKDIR /app
-
+RUN apt-get update && apt-get install -y --no-install-recommends mariadb-server mariadb-client && rm -rf /var/lib/apt/lists/*
 COPY package*.json ./
 RUN npm install --omit=dev
-
 COPY . .
-
-EXPOSE 3000
-
-CMD ["node", "src/index.js"]
+RUN chmod +x start.sh
+EXPOSE 5000
+CMD ["./start.sh"]
