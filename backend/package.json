@@ -8,8 +8,7 @@
     "jsonwebtoken": "^9.0.2",
     "morgan": "^1.10.0",
     "multer": "^2.4.0",
-    "mysql2": "^3.10.0",
-    "socket.io": "^4.8.4"
+    "mysql2": "^3.10.0"
   },
   "description": "FrameFlow SaaS backend — Express + MySQL API for the studio Production Control Center",
   "engines": {
