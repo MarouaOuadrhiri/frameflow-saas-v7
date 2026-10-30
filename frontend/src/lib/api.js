@@ -36,11 +36,32 @@ async function request(method, path, body) {
   const token = getToken();
   if (token) headers['Authorization'] = `Bearer ${token}`;
 
-  const res = await fetch(`${API_URL}${path}`, {
-    method,
-    headers,
-    body: body !== undefined ? JSON.stringify(body) : undefined,
-  });
+  // The cloud demo backend sleeps when idle (free tier) and needs ~60-90s to
+  // wake: while it wakes, the platform drops the request (fetch throws) or
+  // answers 503 with an HTML wake page. Retry for up to ~2.5 minutes so the
+  // first click still gets in instead of showing an error.
+  const WAKE_WAITS_MS = [25000, 35000, 45000, 60000];
+  let res = null;
+  for (let attempt = 0; ; attempt++) {
+    try {
+      res = await fetch(`${API_URL}${path}`, {
+        method,
+        headers,
+        body: body !== undefined ? JSON.stringify(body) : undefined,
+      });
+    } catch (err) {
+      if (attempt < WAKE_WAITS_MS.length) {
+        await new Promise((r) => setTimeout(r, WAKE_WAITS_MS[attempt]));
+        continue;
+      }
+      throw err;
+    }
+    if (res.status === 503 && attempt < WAKE_WAITS_MS.length) {
+      await new Promise((r) => setTimeout(r, WAKE_WAITS_MS[attempt]));
+      continue;
+    }
+    break;
+  }
 
   let json = null;
   try {
