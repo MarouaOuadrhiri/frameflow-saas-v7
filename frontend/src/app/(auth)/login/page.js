@@ -5,53 +5,18 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '../../../lib/auth';
 import { useLang } from '../../../lib/i18n';
 import { Icon } from '../../../lib/icons';
-/**
- * ============================================================================
- * FrameFlow SaaS — Production Control Center
- * 
- * Module: Authentication / Login Page
- * Author & Lead Developer: Maroua Ouadrhiri
- * Project: frameflow-saas-v7
- * 
- * Feature: 1-Click Demo Login Auto-fill
- * Author: Maroua Ouadrhiri
- * Description: Pre-fills email (maroua@gmail.com) and password (maroua123)
- *              for rapid demo access and portfolio evaluation.
- * ============================================================================
- */
+import SplashCursor from '../../../components/SplashCursor';
 
 export default function LoginPage() {
   const router = useRouter();
   const { login } = useAuth();
   const { t } = useLang();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  // Demo build: login pre-filled with the demo account so anyone can test the app in one click.
+  const [email, setEmail] = useState('yassine@frameflow.studio');
+  const [password, setPassword] = useState('demo1234');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [saving, setSaving] = useState(false);
-  const [filled, setFilled] = useState(false);
-
-  /**
-   * Demo credentials authored by Maroua Ouadrhiri
-   * Used for quick 1-click test fill on portfolio / presentation mode
-   */
-  const DEMO_CREDENTIALS_MAROUA = {
-    author: 'Maroua Ouadrhiri',
-    email: 'maroua@gmail.com',
-    password: 'maroua123',
-  };
-
-  /**
-   * Auto-fill handler by Maroua Ouadrhiri
-   * Fills email and password with 1 click and gives visual feedback
-   */
-  const fillMarouaCredentials = () => {
-    setEmail(DEMO_CREDENTIALS_MAROUA.email);
-    setPassword(DEMO_CREDENTIALS_MAROUA.password);
-    setError('');
-    setFilled(true);
-    setTimeout(() => setFilled(false), 2200);
-  };
 
   const submit = async (e) => {
     e.preventDefault();
@@ -67,22 +32,47 @@ export default function LoginPage() {
     }
   };
 
+  // Dev-only one-click login: credentials come from .env.local (never committed),
+  // and the button is hidden in production builds.
+  const showQuickLogin =
+    process.env.NODE_ENV === 'development' &&
+    process.env.NEXT_PUBLIC_DEMO_EMAIL &&
+    process.env.NEXT_PUBLIC_DEMO_PASSWORD;
+
+  const quickLogin = async () => {
+    setError('');
+    setSaving(true);
+    try {
+      await login(process.env.NEXT_PUBLIC_DEMO_EMAIL, process.env.NEXT_PUBLIC_DEMO_PASSWORD);
+      router.push('/dashboard');
+    } catch (err) {
+      setError(err.message || t('login.failed'));
+    } finally {
+      setSaving(false);
+    }
+  };
+
   return (
     <>
+      <SplashCursor
+        SIM_RESOLUTION={128}
+        DYE_RESOLUTION={1440}
+        DENSITY_DISSIPATION={3.5}
+        VELOCITY_DISSIPATION={2}
+        PRESSURE={0.1}
+        CURL={3}
+        SPLAT_RADIUS={0.2}
+        SPLAT_FORCE={6000}
+        COLOR_UPDATE_SPEED={10}
+        TRANSPARENT={true}
+      />
       <h1 className="auth-title anim-rise" style={{ '--d': '0.1s' }}>{t('login.welcomeBack')}</h1>
       <p className="auth-sub anim-rise" style={{ '--d': '0.18s' }}>{t('login.subtitle')}</p>
       {error && <div className="auth-error">{error}</div>}
       <form onSubmit={submit}>
         <div className="field anim-rise" style={{ '--d': '0.26s' }}>
           <label>{t('login.email')}</label>
-          <input
-            type="email"
-            placeholder="you@studio.com"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            autoComplete="email"
-          />
+          <input type="email" placeholder="you@studio.com" value={email} onChange={(e) => setEmail(e.target.value)} required />
         </div>
         <div className="field anim-rise" style={{ '--d': '0.34s' }}>
           <label>{t('login.password')}</label>
@@ -93,62 +83,38 @@ export default function LoginPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              autoComplete="current-password"
               style={{ paddingRight: 40 }}
             />
             <button
               type="button"
-              className="icon-btn auth-pwd-toggle"
+              className="icon-btn"
               onClick={() => setShowPassword((v) => !v)}
               title={showPassword ? t('login.hidePassword') : t('login.showPassword')}
               aria-label={showPassword ? t('login.hidePassword') : t('login.showPassword')}
-              style={{
-                position: 'absolute',
-                right: 8,
-                top: '50%',
-                transform: 'translateY(-50%)',
-                border: 'none',
-                background: 'transparent',
-                boxShadow: 'none',
-                cursor: 'pointer',
-              }}
+              style={{ position: 'absolute', right: 8, top: '50%', transform: 'translateY(-50%)' }}
             >
               <Icon name={showPassword ? 'eyeOff' : 'eye'} size={18} />
             </button>
           </div>
         </div>
-
-        {/* ⚡ Demo Credentials 1-Click Fill Button — Developed by Maroua Ouadrhiri */}
-        <div className="demo-fill-wrap anim-rise" style={{ '--d': '0.38s' }}>
-          <button
-            type="button"
-            id="btn-demo-maroua"
-            className={`btn-demo-fill ${filled ? 'is-filled' : ''}`}
-            onClick={fillMarouaCredentials}
-            title="Auto-fill credentials for Maroua Ouadrhiri"
-            aria-label="Remplir identifiants Maroua Ouadrhiri"
-          >
-            <div className="demo-fill-avatar">MO</div>
-            <div className="demo-fill-meta">
-              <span className="demo-fill-name">Maroua Ouadrhiri</span>
-              <span className="demo-fill-email">{DEMO_CREDENTIALS_MAROUA.email}</span>
-            </div>
-            <span className="demo-fill-badge">
-              {filled ? '✓ Rempli !' : '⚡ 1-Click Fill'}
-            </span>
-          </button>
-        </div>
-
-        <button className="btn btn-primary auth-submit anim-rise" style={{ '--d': '0.44s' }} type="submit" disabled={saving}>
+        <button className="btn btn-primary auth-submit anim-rise" style={{ '--d': '0.42s' }} type="submit" disabled={saving}>
           {saving ? t('login.signingIn') : t('login.signIn')}
         </button>
       </form>
-      <div className="auth-foot anim-rise" style={{ '--d': '0.52s' }}>
+      {showQuickLogin && (
+        <button
+          type="button"
+          className="btn auth-submit anim-rise"
+          style={{ '--d': '0.46s', marginTop: 12, opacity: 0.9 }}
+          onClick={quickLogin}
+          disabled={saving}
+        >
+          {t('login.quickLogin')}
+        </button>
+      )}
+      <div className="auth-foot anim-rise" style={{ '--d': '0.5s' }}>
         {t('login.teamWorkspace')}
       </div>
     </>
   );
 }
-
-
-
