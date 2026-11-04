@@ -6,6 +6,8 @@
 // localhost/127.0.0.1 (or is unset) and the browser is on a real LAN host,
 // the API hostname follows the browser's hostname (keeping any explicit
 // non-default port from the env URL, else defaulting to 5000).
+import { DEMO_MODE, demoRequest, demoUpload } from './demo';
+
 function resolveApiUrl() {
   const buildUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
   try {
@@ -32,6 +34,9 @@ function getToken() {
 }
 
 async function request(method, path, body) {
+  // Frontend demo mode (portfolio build): answer locally, never hit the network.
+  if (DEMO_MODE) return demoRequest(method, path, body);
+
   const headers = { 'Content-Type': 'application/json' };
   const token = getToken();
   if (token) headers['Authorization'] = `Bearer ${token}`;
@@ -84,6 +89,7 @@ export const api = {
   del: (path) => request('DELETE', path),
   // Multipart upload (FormData) — no JSON Content-Type, Bearer token attached.
   upload: async (path, formData) => {
+    if (DEMO_MODE) return demoUpload(path, formData);
     const headers = {};
     const token = getToken();
     if (token) headers['Authorization'] = `Bearer ${token}`;
@@ -102,6 +108,7 @@ export const api = {
   },
   // Binary download (file attachments, previews) — returns a Blob.
   downloadBlob: async (path) => {
+    if (DEMO_MODE) return new Blob(['FrameFlow demo file'], { type: 'text/plain' });
     const headers = {};
     const token = getToken();
     if (token) headers['Authorization'] = `Bearer ${token}`;
